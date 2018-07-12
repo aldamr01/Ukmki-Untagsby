@@ -56,7 +56,7 @@
                 <div class="col-lg-3 col-md-6">
       						<div class="thumbnail no-padding">
       							<div class="thumb">
-      								<img src="assets/images/placeholder.jpg" alt="">
+      								<img src="{{base_url('assets/images/placeholder.jpg')}}" alt="">
       								<div class="caption-overflow">
       									<span>
       										<a href="assets/images/placeholder.jpg" class="btn bg-success-400 btn-icon btn-xs" data-popup="lightbox"><i class="icon-search4"></i></a>

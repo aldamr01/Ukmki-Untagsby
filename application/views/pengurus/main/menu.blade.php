@@ -90,29 +90,24 @@
 		              <li><a href="{{base_url('Superuser/index')}}"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
 		              <li><a href="changelog.html"><i class="icon-calendar"></i> <span>My - Activities </a>
 		                <ul>
-		                  <li><a href="{{base_url('Superuser/yaumiah')}}"><i class="icon-calendar"></i><span>Amalan Yaumiah</span></a></li>
-		                  <li><a href="{{base_url('Superuser/agenda_kegiatan')}}"><i class="icon-stack4"></i><span>Agenda Kegiatan</span></a></li>
-		                  <li><a href="{{base_url('Superuser/Log')}}"><i class="icon-quill4"></i><span>Catatan Saya</span></a></li>
+		                  <li><a href="#"><i class="icon-calendar"></i><span>Amalan Yaumiah</span></a></li>
+		                  <li><a href="#"><i class="icon-stack4"></i><span>Agenda Kegiatan</span></a></li>
+		                  <li><a href="#"><i class="icon-quill4"></i><span>Catatan Saya</span></a></li>
 		                </ul>
 		              </li>
-		              <li><a href="../../RTL/default/index.html"><i class="icon-users4"></i> <span>My - Mentoring</span></a>
+		              <li><a href="#"><i class="icon-users4"></i> <span>My - Mentoring</span></a>
 		                <ul>
-		                  <li><a href="#"><i class="icon-book"></i><span>Silabus Mentoring</span></a></li>
+		                  <li><a href="{{base_url('Superuser/mymentoring/silabus_mentoring')}}"><i class="icon-book"></i><span>Silabus Mentoring</span></a></li>
 		                  <li><a href="{{base_url('Superuser/mymentoring/lihat_kelas')}}"><i class="icon-tree7"></i><span>Kelas Mentoring</span></a></li>
 		                </ul>
 		              </li>
-		              <li><a href="../../RTL/default/index.html"><i class="icon-bookmark"></i> <span>My - Article</span></a>
+		              <li><a href="#"><i class="icon-people"></i> <span>My - Ukmki</span></a>
 		                <ul>
-		                  <li><a href="#"><i class="icon-clipboard"></i><span>Artikel Saya</span></a></li>
-		                </ul>
-		              </li>
-		              <li><a href="../../RTL/default/index.html"><i class="icon-people"></i> <span>My - Ukmki</span></a>
-		                <ul>
-		                  <li><a href="<?=base_url('Superuser/anggota')?>"><i class="icon-users"></i><span>Anggota Saya</span></a></li>
+		                  <li><a href="#"><i class="icon-users"></i><span>Anggota Saya</span></a></li>
 		                  <li><a href="#"><i class="icon-statistics"></i><span>Statistik  Anggota</span></a></li>
 		                </ul>
 		              </li>
-									<li><a href="../../RTL/default/index.html"><i class="icon-accessibility"></i> <span>My - Profile</span></a></li>
+									<li><a href="#"><i class="icon-accessibility"></i> <span>My - Profile</span></a></li>
 		              <!-- /main -->
 		            </ul>
 		          </div>
@@ -139,7 +134,7 @@
 						<div class="sidebar-user">
 							<div class="category-content">
 								<div class="media">
-									<a href="#" class="media-left"><img src="<?=base_url('assets/images/placeholder.jpg')?>" class="img-circle img-sm" alt=""></a>
+									<a href="#" class="media-left"><img src="{{base_url('assets/images/placeholder.jpg')}}" class="img-circle img-sm" alt=""></a>
 									<div class="media-body">
 										<span class="media-heading text-semibold">{{$_nama}} </span>
 										<div class="text-size-mini text-muted">
@@ -166,24 +161,19 @@
 								<ul class="navigation navigation-main navigation-accordion">
 									<!-- Main -->
 									<li class="navigation-header"><span>Main Menu</span> <i class="icon-menu" title="Main pages"></i></li>
-									<li><a href="<?=base_url('Superuser/index')?>"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
+									<li><a href="{{base_url('Superuser/index')}}"><i class="icon-home4"></i> <span>Dashboard</span></a></li>
 									<li><a href="changelog.html"><i class="icon-calendar"></i> <span>My - Activities </a>
 										<ul>
-											<li><a href="<?=base_url('Superuser/yaumiah')?>"><i class="icon-calendar"></i><span>Amalan Yaumiah</span></a></li>
-											<li><a href="<?=base_url('Superuser/agenda_kegiatan')?>"><i class="icon-stack4"></i><span>Agenda Kegiatan</span></a></li>
+											<li><a href="#"><i class="icon-calendar"></i><span>Amalan Yaumiah</span></a></li>
+											<li><a href="#"><i class="icon-stack4"></i><span>Agenda Kegiatan</span></a></li>
 											<li><a href="#"><i class="icon-quill4"></i><span>Kas Saya</span></a></li>
 											<li><a href="#"><i class="icon-history"></i><span>History Saya</span></a></li>
 										</ul>
 									</li>
-									<li><a href="../../RTL/default/index.html"><i class="icon-users4"></i> <span>My - Mentoring</span></a>
+									<li><a href="#"><i class="icon-users4"></i> <span>My - Mentoring</span></a>
 										<ul>
 											<li><a href="{{base_url('Superuser/mymentoring/silabus_mentoring')}}"><i class="icon-book"></i><span>Silabus Mentoring</span></a></li>
 											<li><a href="{{base_url('Superuser/mymentoring')}}"><i class="icon-tree7"></i><span>Kelas Mentoring</span></a></li>
-										</ul>
-									</li>
-									<li><a href="../../RTL/default/index.html"><i class="icon-bookmark"></i> <span>My - Article</span></a>
-										<ul>
-											<li><a href="#"><i class="icon-clipboard"></i><span>Artikel Saya</span></a></li>
 										</ul>
 									</li>
 									<li><a href="{{base_url('Superuser/myprofile')}}"><i class="icon-accessibility"></i> <span>My - Profile</span></a></li>

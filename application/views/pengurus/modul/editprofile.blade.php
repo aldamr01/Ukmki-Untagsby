@@ -217,7 +217,7 @@
                             <label class="">Pengalaman</label>
                             <div class="input-group">
                               <span class="input-group-addon"><i class="icon-pushpin"></i></span>
-                              <textarea class="form-control" name="__pengalaman" value="{{$__pengalaman}}" required="required"></textarea>
+                              <textarea class="form-control" name="__pengalaman" value="" required="required">{{$__pengalaman}}</textarea>
                             </div>
                           </div>
                         </div>
@@ -233,7 +233,7 @@
                             <label class="">Kemampuan anda</label>
                             <div class="input-group">
                               <span class="input-group-addon"><i class="icon-pushpin"></i></span>
-                              <textarea class="form-control" name="__skill" value="{{$__skill}}" required="required"></textarea>
+                              <textarea class="form-control" name="__skill" value="" required="required">{{$__skill}}</textarea>
                             </div>
                           </div>
                         </div>

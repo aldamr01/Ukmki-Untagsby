@@ -162,9 +162,9 @@
           "USER_PASS"       =>  $this->input->post('__password')
         );
         if($this->M_myprofile->update_profile("kitg_person",$data1,$id))
-          redirect("Superuser");
+          redirect("Superuser/myprofile");
         else
-          redirect("Superuserx");
+          redirect("Superuser/myprofile/edit_profile");
       }else{
         echo $this->blade->stream('pengurus.modul.myprofile',$myprofile);
       }
