@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     function tampil_anggota1()
     {
       $where 	= array(
-					'PRS_GENDER' 	=> 'laki-Laki'
+					'PRS_GENDER' 	=> 'Laki-Laki'
 				  );
       $value = $this->db->get_where('kitg_person',$where);
       return $value->result_array();

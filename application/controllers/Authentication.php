@@ -40,6 +40,7 @@
           $data_session['status']   = TRUE ;
           $data_session['uid']      = $value->PRS_ID;
           $data_session['nama']     = $value->PRS_NAME;
+          $data_session['gender']     = $value->PRS_GENDER;
           $data_session['password'] = $value->PRS_PASSWORD;
           $this->session->set_userdata($data_session);
         }

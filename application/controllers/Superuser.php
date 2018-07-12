@@ -1,17 +1,16 @@
-"<?php
+<?php
   defined('BASEPATH') OR exit('No direct script access allowed');
 
 
   class Superuser extends CI_Controller
   {
 
-
     public function __construct()
     {
       parent::__construct();
 
       if(!$this->session->userdata('status')){
-        redirect('Authentication');
+        redirect('Authentication/login');
       }
 
       $this->load->library('form_validation');
@@ -36,7 +35,7 @@
       if(!$data['_check'])
         echo $this->blade->stream('pengurus.login');
       else
-        echo $this->blade->stream('pengurus.modul.myprofile',$data);
+        echo $this->blade->stream('pengurus.modul.home',$data);
     }
 
     function logout()
@@ -51,28 +50,28 @@
       $id = array(
         'kitg_person.PRS_ID' => $this->session->userdata('uid')
         );
-      /*$data_profil  = $this->M_myprofile->show_profile($id);
-      $CURRENTuser = $data_profil->row();
+      $data_profil  = $this->M_myprofile->show_profile($id)->result_array();
+      /*$CURRENTuser = $data_profil->row();
       $*/
-      foreach ($data_profil->row() as $val) {
-        $data['prs_name']       = $val->PRS_NAME;
-        $data['prs_birthday']   = $val->PRS_BIRTHDAY;
-        $data['prs_birthplace'] = $val->PRS_BIRTHPLACE;
-        $data['prs_gender']     = $val->PRS_GENDER;
-        $data['prs_email']      = $val->PRS_EMAIL;
-        $data['prs_phone']      = $val->PRS_PHONE;
-        $data['prs_pict']       = $val->PRS_PICT;
-        $data['prs_address']    = $val->PRS_ADDRESS;
-        $data['prs_sd']         = $val->PRS_SD;
-        $data['prs_smp']        = $val->PRS_SMP;
-        $data['prs_sma']        = $val->PRS_SMA;
-        $data['prs_fakultas']   = $val->PRS_FACULTY;
-        $data['prs_jurusan']    = $val->PRS_MAJOR;
-        $data['prs_nbi']        = $val->PRS_NBI;
-        $data['prs_motto']      = $val->PRS_MOTTO;
-        $data['prs_skills']     = $val->PRS_SKILLS;
-        $data['prs_pengalaman'] = $val->PRS_EXP;
-        $data['prs_motivasi']   = $val->PRS_MOTIVATION;
+      foreach ($data_profil as $val) {
+        $data['prs_name']       = $val['PRS_NAME'];
+        $data['prs_birthday']   = $val['PRS_BIRTHDAY'];
+        $data['prs_birthplace'] = $val['PRS_BIRTHPLACE'];
+        $data['prs_gender']     = $val['PRS_GENDER'];
+        $data['prs_email']      = $val['PRS_EMAIL'];
+        $data['prs_phone']      = $val['PRS_PHONE'];
+        $data['prs_pict']       = $val['PRS_PICT'];
+        $data['prs_address']    = $val['PRS_ADDRESS'];
+        $data['prs_sd']         = $val['PRS_SD'];
+        $data['prs_smp']        = $val['PRS_SMP'];
+        $data['prs_sma']        = $val['PRS_SMA'];
+        $data['prs_fakultas']   = $val['PRS_FACULTY'];
+        $data['prs_jurusan']    = $val['PRS_MAJOR'];
+        $data['prs_nbi']        = $val['PRS_NBI'];
+        $data['prs_motto']      = $val['PRS_MOTTO'];
+        $data['prs_skills']     = $val['PRS_SKILLS'];
+        $data['prs_pengalaman'] = $val['PRS_EXP'];
+        $data['prs_motivasi']   = $val['PRS_MOTIVATION'];
         $this->session->set_userdata($data);
         /*$this->session->set_userdata(array('user' => $CURRENTuser));
         $temp = getsesion(user);
@@ -97,8 +96,7 @@
         '__motto'           =>  $this->session->userdata('prs_motto'),
         '__motivasi'        =>  $this->session->userdata('prs_motivasi'),
         '__nbi'             =>  $this->session->userdata('prs_nbi'),
-
-        '_check'    =>  $this->session->userdata('status'),
+        '_check'            =>  $this->session->userdata('status'),
         '_pos'      =>  $this->session->userdata('jabatan'),
         '_nama'     =>  $this->session->userdata('name'),
         '_id'       =>  $this->session->userdata('uid'),
@@ -167,6 +165,8 @@
           redirect("Superuser");
         else
           redirect("Superuserx");
+      }else{
+        echo $this->blade->stream('pengurus.modul.myprofile',$myprofile);
       }
       // under construction , the views has been created
       // 3 views = show profile , update profile , delete profile
@@ -185,6 +185,7 @@
         '_pos'      =>  $this->session->userdata('jabatan'),
         '_nama'     =>  $this->session->userdata('nama'),
         '_id'       =>  $this->session->userdata('uid'),
+        '_gender'   =>  $this->session->userdata('gender'),
         '_menu'     =>  $this->session->userdata('jabatan')
       );
 
@@ -222,19 +223,80 @@
         }
       }
       elseif($role=="detil_kelas" && $id!=null){
+        $kelas_id = $this->input->post('id',TRUE);
+        $data['kelas_peserta']  = $this->M_mymentoring->show_peserta_by($kelas_id);
+        $data['kelas_detil']  = $this->M_mymentoring->show_kelas_info($kelas_id)->row();
+        $data['kelas_absensi']  = $this->M_mymentoring->show_absensi_kelas($kelas_id)->result_array();
+        $data['anggota_ikhwan'] = $this->M_anggota->tampil_anggota1();
+
         echo $this->blade->stream('pengurus.modul.mymentoring_kelasdetil',$data);
+      }
+      elseif($role=="added_peserta"){
+        $this->form_validation->set_rules('anggota_id','Peserta mentoring','required');
+        $data = array(
+          "MTGP_ID" =>  $this->M_global->randomizer(10),
+          "MTG_ID"  =>  $this->input->post('kelas'),
+          "PRS_ID"  =>  $this->input->post('anggota_id')
+        );
+        if ($this->form_validation->run()==FALSE) {
+          echo $this->blade->stream('pengurus.modul.mymentoring_kelas',$data);
+        }else{
+          $this->M_mymentoring->tambah_peserta($data);
+          redirect('Superuser/mymentoring/detil_kelas');
+        }
+      }
+      elseif($role=="created_absensi_mentoring"){
+        $this->form_validation->set_rules('materi','Peserta mentoring','required');
+        $data = array(
+          "MTGAD_ID" =>  $this->M_global->randomizer(10),
+          "MTG_ID"  =>  $this->input->post('kelas'),
+          "MTGAD_MATERI"  =>  $this->input->post('materi')
+        );
+        if ($this->form_validation->run()==FALSE) {
+          echo $this->blade->stream('pengurus.modul.mymentoring_kelas',$data);
+        }else{
+          $this->M_mymentoring->buat_absensi($data);
+          redirect('Superuser/mymentoring/detil_kelas');
+        }
+      }
+      elseif($role=="absensi_kelas"){
+        $this->form_validation->set_rules('id','Peserta mentoring','required');
+        $kelas_id = $this->input->post('id');
+
+        $data['mentoring_absensi']  = $this->M_mymentoring->show_absensi_kelas_by($kelas_id)->row();
+
+        $data['mentoring_peserta']  = $this->M_mymentoring->show_absen_peserta_by($kelas_id);
+
+        echo $this->blade->stream('pengurus.modul.mymentoring_absensi_kelas',$data);
+      }
+      elseif($role=="changed_absensi"){
+        $this->form_validation->set_rules('mtgad_id','Peserta mentoring','required');
+        $this->form_validation->set_rules('mtgp_id','Peserta mentoring','required');
+        $this->form_validation->set_rules('keterangan','Peserta mentoring','required');
+        $input = array(
+          "MTGAD_ID"  => $this->input->post('mtgad_id'),
+          "PRS_ID"  => $this->input->post('mtgp_id'),
+          "MTGA_STATUS"  => $this->input->post('keterangan'),
+          "MTGA_ID"  => $this->M_global->randomizer(10)
+        );
+        if ($this->form_validation->run()==FALSE) {
+          echo $this->blade->stream('pengurus.modul.mymentoring_kelasdetil',$data);
+        }else{
+          $this->M_mymentoring->add_absensi_peserta($input);
+          redirect('Superuser/mymentoring/detil_kelas');
+        }
+      }
+      elseif($role=="silabus_mentoring"){
+        echo $this->blade->stream('pengurus.modul.mymentoring_cektambahsilabus',$data);
       }
       else{
         $result           = $this->M_mymentoring->show_kelas();
         $data['result']   = $result;
-         $this->blade->stream('pengurus.modul.mymentoring_kelas',$data);
-         echo $this->encryption->encrypt("CROT");
+        echo $this->blade->stream('pengurus.modul.mymentoring_kelas',$data);
       }
       //under construction , the view is being created
       //4 views = show kelas (user),show kelas detil(user),create kelas(mentoring),edit kelas(mentoring),create silabus(mentoring),update silabus(mentoring) include delete silabus(mentoring)
     }
-
-
 
   }
 

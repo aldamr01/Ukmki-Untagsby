@@ -2,7 +2,7 @@
 @include('pengurus.main.menu')
 
 @section('title')
-  Info Mentoring kelas {{$_check}}
+  Info Mentoring kelas
 @endsection
 
 @section('corejs')
@@ -44,28 +44,33 @@
 				<div class="content">
           <div class="panel panel-info panel-bordered">
 						<div class="panel-heading">
-					    <h6 class="panel-title">Kelas Mentoring {{$_check}}</h6>
+					    <h6 class="panel-title">Kelas Mentoring {{$kelas_detil->MTG_CLASS}}</h6>
 						</div>
 						<div class="panel-body">
               <div class="row">
                 <div class="col-md-4">
                   <!-- Accordion with right control button -->
-      						<h6 class="content-group text-semibold">Peserta Mentoring Kelas {{$_check}} <small class="display-block">Bio Peserta</small></h6>
+      						<h6 class="content-group text-semibold">Peserta Mentoring Kelas {{$kelas_detil->MTG_CLASS}}
+                    <a href="#"><i class="icon-plus-circle2" data-toggle="modal" data-target="#input_peserta_mentoring"></i></a>
+                    <small class="display-block">Bio Peserta</small>
+                  </h6>
 
       						<div class="panel-group panel-group-control panel-group-control-right content-group-lg" id="accordion-control-right">
                     <!--repeat-->
-      							<div class="panel panel-white">
-      								<div class="panel-heading">
-      									<h6 class="panel-title">
-      										<a data-toggle="collapse" data-parent="#accordion-control-right" href="#accordion-control-right-group1">Accordion Item #1</a>
-      									</h6>
-      								</div>
-      								<div id="accordion-control-right-group1" class="panel-collapse collapse in">
-      									<div class="panel-body">
-      										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
-      									</div>
-      								</div>
-      							</div>
+                    @foreach ($kelas_peserta as $val)
+                      <div class="panel panel-white">
+        								<div class="panel-heading">
+        									<h6 class="panel-title">
+        										<a data-toggle="collapse" data-parent="#accordion-control-right" href="#accordion-control-right-group{{$val['PRS_ID']}}">{{$val['PRS_NAME']}}</a>
+        									</h6>
+        								</div>
+        								<div id="accordion-control-right-group{{$val['PRS_ID']}}" class="panel-collapse collapse in">
+        									<div class="panel-body">
+        										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+        									</div>
+        								</div>
+        							</div>
+                    @endforeach
                     <!--repeat-->
       						</div>
       						<!-- /accordion with right control button -->
@@ -75,25 +80,33 @@
                 </div>
                 <div class="col-md-4">
                   <!-- Accordion with different panel styling -->
-    							<h6 class="content-group text-semibold">Silabus Mentoring<small class="display-block">Klik untuk melihat absensi</small></h6>
+    							<h6 class="content-group text-semibold">Absensi Mentoring
+                    <a href="#"><i class="icon-plus-circle2" data-toggle="modal" data-target="#buat_absensi_mentoring"></i></a>
+                    <small class="display-block">Klik untuk melihat absensi</small>
+                  </h6>
 
     							<div class="panel-group" id="accordion-styled">
                     <!--repeat-->
-    								<div class="panel">
-    									<div class="panel-heading bg-danger">
-    										<h6 class="panel-title">
-    											<a data-toggle="collapse" data-parent="#accordion-styled" href="#accordion-styled-group1">Accordion Item #1</a>
-    										</h6>
-    									</div>
-    									<div id="accordion-styled-group1" class="panel-collapse collapse in">
-    										<div class="panel-body">
-    											Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
-    										</div>
-                        <div class="panel-heading">
-                          <a href="#" data-toggle="modal" data-target="#absensi_{{$_check}}"><i class="icon-file-pdf"></i>&nbsp;Absensi Kehadiran</a>
-                        </div>
-    									</div>
-    								</div>
+                    @foreach ($kelas_absensi as $absensi)
+                      <div class="panel">
+      									<div class="panel-heading bg-danger">
+      										<h6 class="panel-title">
+      											<a data-toggle="collapse" data-parent="#accordion-styled" href="#accordion-styled-group1">{{$absensi['MTGAD_MATERI']}}</a>
+      										</h6>
+      									</div>
+      									<div id="accordion-styled-group1" class="panel-collapse collapse in">
+      										<div class="panel-body">
+      											Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+      										</div>
+                          <div class="panel-heading">
+                            {!!form_open('Superuser/mymentoring/absensi_kelas')!!}
+                              <input type="text" hidden="hidden" name="id" value="{{$absensi['MTG_ID']}}">
+                              <button class="btn btn success icon-file-pdf"></button>&nbsp;Absensi Kehadiran</a>
+                            </form>
+                          </div>
+      									</div>
+      								</div>
+                    @endforeach
                     <!--repeat-->
     							</div>
     							<!-- /accordion with different panel styling -->
@@ -127,34 +140,69 @@
 			<!-- /main content -->
 	</div>
 		<!-- /page container -->
-    <!-- modal untuk pembayaran -->
-		<div id="absensi_{{$_check}}" class="modal fade">
+
+    <!--modal input peserta-->
+		<div id="input_peserta_mentoring" class="modal fade">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h5 class="modal-title">Absensi Mentoring</h5>
+						<h5 class="modal-title">Peserta Mentoring </h5>
 					</div>
+          {!!form_open('Superuser/mymentoring/added_peserta')!!}
+  					<div class="modal-body">
+              @if ($_gender!="Perempuan")
+                <h6 class="text-semibold">Anggota </h6>
+    						<p>
+                <div class="form-group">
+                  <label for="">Nama Anggota</label>
+                  <select class="form-control" name="anggota_id">
+                    @foreach ($anggota_ikhwan as $ikhwan)
+                      <option value="{{$ikhwan['PRS_ID']}}">{{$ikhwan['PRS_NAME']}}</option>
+                    @endforeach
+                  </select>
+                  <input type="text" hidden="hidden" name="kelas" value="{{$kelas_detil->MTG_ID}}">
+                </div>
+              @endif
+            </p>
+  					</div>
 
-					<div class="modal-body">
-						<h6 class="text-semibold">Tunggakan</h6>
-						<p>
-            <div class="form-group">
-              <!--tempat tanggal tunggakan nya -->
-              <div class="form-control">
-                <input type="checkbox" name="" value="">
-                &nbsp;Bulan Januari 2018
-              </div>
-            </div>
-          </p>
-					</div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-					</div>
+    				<div class="modal-footer">
+    					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+    					<button type="submit" class="btn btn-primary" >Save changes</button>
+    				</div>
+          </form>
 				</div>
 			</div>
 		</div>
-		<!-- /basic modal -->
+		<!-- /basic modal peserta -->
+
+    <!--modal buat absensi-->
+		<div id="buat_absensi_mentoring" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h5 class="modal-title">Buat Absensi Mentoring </h5>
+					</div>
+          {!!form_open('Superuser/mymentoring/created_absensi_mentoring')!!}
+  					<div class="modal-body">
+						<p>
+              <div class="form-group">
+                <label for="">materi Mentoring</label>
+                <input type="text" name="materi" value="" class="form-control">
+                <input type="text" hidden="hidden" name="kelas" value="{{$kelas_detil->MTG_ID}}">
+              </div>
+            </p>
+  					</div>
+
+    				<div class="modal-footer">
+    					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+    					<button type="submit" class="btn btn-primary" >Save changes</button>
+    				</div>
+          </form>
+				</div>
+			</div>
+		</div>
+		<!-- /basic modal absensi -->
 @endsection
